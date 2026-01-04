@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧教学平台 - 交互式学习系统</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@11.8.0/lib/browser/math.js"></script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>智慧教学平台</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="active"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="#math"><i class="fas fa-chart-line"></i> 函数可视化</a></li>
+                <li><a href="#english"><i class="fas fa-language"></i> 英语学习</a></li>
+                <li><a href="#ai"><i class="fas fa-robot"></i> AI助手</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <!-- 首页 -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h1>欢迎使用交互式教学平台</h1>
+                <p>整合数学可视化、英语学习和AI辅助的一站式学习解决方案</p>
+                <div class="feature-cards">
+                    <div class="feature-card" data-target="#math">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>函数可视化</h3>
+                        <p>直观展示数学函数图像，支持动态参数调整</p>
+                    </div>
+                    <div class="feature-card" data-target="#english">
+                        <i class="fas fa-language"></i>
+                        <h3>英语单词检测</h3>
+                        <p>智能单词测试与学习系统</p>
+                    </div>
+                    <div class="feature-card" data-target="#ai">
+                        <i class="fas fa-robot"></i>
+                        <h3>AI教学助手</h3>
+                        <p>接入DeepSeek，解答学习问题</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 函数可视化模块 -->
+        <section id="math" class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-line"></i> 函数可视化工具</h2>
+                <p>输入数学函数，实时查看图形变化</p>
+            </div>
+            
+            <div class="math-container">
+                <div class="math-controls">
+                    <div class="input-group">
+                        <label for="function-input">函数表达式 (使用 x 作为变量):</label>
+                        <input type="text" id="function-input" 
+                               placeholder="例如: sin(x), x^2+2*x+1, log(x)"
+                               value="sin(x)">
+                    </div>
+                    
+                    <div class="range-controls">
+                        <div class="range-group">
+                            <label for="x-min">X 最小值:</label>
+                            <input type="number" id="x-min" value="-10" step="1">
+                        </div>
+                        <div class="range-group">
+                            <label for="x-max">X 最大值:</label>
+                            <input type="number" id="x-max" value="10" step="1">
+                        </div>
+                        <div class="range-group">
+                            <label for="y-min">Y 最小值:</label>
+                            <input type="number" id="y-min" value="-5" step="1">
+                        </div>
+                        <div class="range-group">
+                            <label for="y-max">Y 最大值:</label>
+                            <input type="number" id="y-max" value="5" step="1">
+                        </div>
+                    </div>
+                    
+                    <div class="color-controls">
+                        <label for="line-color">线条颜色:</label>
+                        <input type="color" id="line-color" value="#3a86ff">
+                        <label for="line-width">线条宽度:</label>
+                        <input type="range" id="line-width" min="1" max="5" value="2">
+                    </div>
+                    
+                    <button id="plot-btn" class="btn btn-primary">
+                        <i class="fas fa-play"></i> 绘制函数
+                    </button>
+                    
+                    <div class="preset-functions">
+                        <p>预设函数:</p>
+                        <button class="preset-btn" data-func="sin(x)">sin(x)</button>
+                        <button class="preset-btn" data-func="cos(x)">cos(x)</button>
+                        <button class="preset-btn" data-func="x^2">x²</button>
+                        <button class="preset-btn" data-func="x^3">x³</button>
+                        <button class="preset-btn" data-func="1/x">1/x</button>
+                        <button class="preset-btn" data-func="log(x)">log(x)</button>
+                    </div>
+                </div>
+                
+                <div class="graph-container">
+                    <div id="function-plot"></div>
+                    <div class="graph-info">
+                        <p id="function-info">当前函数: f(x) = sin(x)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 英语单词检测模块 -->
+        <section id="english" class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-language"></i> 英语单词学习系统</h2>
+                <p>通过多种练习模式提升词汇量</p>
+            </div>
+            
+            <div class="english-container">
+                <div class="quiz-mode-selector">
+                    <h3>选择练习模式</h3>
+                    <div class="mode-buttons">
+                        <button class="mode-btn active" data-mode="flashcard">
+                            <i class="fas fa-layer-group"></i> 单词卡片
+                        </button>
+                        <button class="mode-btn" data-mode="multiple-choice">
+                            <i class="fas fa-list-ol"></i> 选择题
+                        </button>
+                        <button class="mode-btn" data-mode="spelling">
+                            <i class="fas fa-keyboard"></i> 拼写测试
+                        </button>
+                        <button class="mode-btn" data-mode="matching">
+                            <i class="fas fa-random"></i> 配对练习
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="quiz-area">
+                    <!-- 单词卡片模式 -->
+                    <div id="flashcard-mode" class="quiz-mode active">
+                        <div class="flashcard">
+                            <div class="flashcard-front">
+                                <h3 id="word">Algorithm</h3>
+                                <p class="phonetic">/ˈælɡərɪðəm/</p>
+                                <button class="btn-flip">查看释义 <i class="fas fa-sync-alt"></i></button>
+                            </div>
+                            <div class="flashcard-back">
+                                <h3>Algorithm</h3>
+                                <p class="definition"><strong>释义:</strong> 算法，计算程序</p>
+                                <p class="example"><strong>例句:</strong> The search algorithm efficiently finds data in the database.</p>
+                                <button class="btn-flip">返回单词 <i class="fas fa-sync-alt"></i></button>
+                            </div>
+                        </div>
+                        <div class="flashcard-controls">
+                            <button id="prev-card" class="btn"><i class="fas fa-chevron-left"></i> 上一个</button>
+                            <button id="next-card" class="btn btn-primary">下一个 <i class="fas fa-chevron-right"></i></button>
+                            <button id="mark-known" class="btn btn-success"><i class="fas fa-check"></i> 已掌握</button>
+                            <button id="mark-difficult" class="btn btn-warning"><i class="fas fa-star"></i> 标记难点</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 选择题模式 -->
+                    <div id="multiple-choice-mode" class="quiz-mode">
+                        <div class="mcq-question">
+                            <h3>选择题</h3>
+                            <p id="mcq-word">"Ubiquitous" 的意思是什么？</p>
+                            <div class="mcq-options">
+                                <button class="option-btn">A. 稀有的</button>
+                                <button class="option-btn correct">B. 普遍存在的</button>
+                                <button class="option-btn">C. 复杂的</button>
+                                <button class="option-btn">D. 简单的</button>
+                            </div>
+                            <div class="feedback" id="mcq-feedback"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 拼写测试模式 -->
+                    <div id="spelling-mode" class="quiz-mode">
+                        <div class="spelling-question">
+                            <h3>拼写测试</h3>
+                            <p id="spelling-prompt">请拼写这个单词：</p>
+                            <p class="definition-prompt" id="spelling-definition">"利用计算机处理数据的方法"</p>
+                            <input type="text" id="spelling-input" placeholder="输入单词拼写...">
+                            <button id="check-spelling" class="btn btn-primary">检查</button>
+                            <div class="feedback" id="spelling-feedback"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 单词库管理 -->
+                    <div class="word-library">
+                        <h3><i class="fas fa-book"></i> 单词库</h3>
+                        <div class="word-list" id="word-list">
+                            <!-- 单词列表将通过JS动态生成 -->
+                        </div>
+                        <div class="add-word-form">
+                            <h4>添加新单词</h4>
+                            <input type="text" id="new-word" placeholder="英文单词">
+                            <input type="text" id="new-meaning" placeholder="中文释义">
+                            <button id="add-word-btn" class="btn btn-primary">添加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI助手模块 -->
+<section id="ai" class="section">
+    <div class="section-header">
+        <h2><i class="fas fa-robot"></i> DeepSeek AI教学助手</h2>
+        <p>解答学习问题，提供个性化辅导</p>
+    </div>
+    
+    <div class="ai-container">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="ai-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="ai-info">
+                    <h3>DeepSeek 教学助手</h3>
+                    <p class="status"><i class="fas fa-circle online"></i> 检查连接中...</p>
+                </div>
+            </div>
+            
+            <div class="chat-messages" id="chat-messages">
+                <div class="message ai-message">
+                    <div class="message-content">
+                        <p>你好！我是DeepSeek AI教学助手，基于真实的DeepSeek API。我可以帮助你解答数学问题、英语学习疑问，或者解释其他学科的概念。请问有什么可以帮你的吗？</p>
+                    </div>
+                    <div class="message-time">刚刚</div>
+                </div>
+            </div>
+            
+            <div class="chat-input-area">
+                <div class="quick-questions">
+                    <p>快速提问:</p>
+                    <button class="quick-question-btn">解释二次函数</button>
+                    <button class="quick-question-btn">"ubiquitous"的用法</button>
+                    <button class="quick-question-btn">推荐学习计划</button>
+                </div>
+                
+                <div class="input-group">
+                    <textarea id="user-input" placeholder="输入你的问题... (按Shift+Enter换行，Enter发送)" rows="3"></textarea>
+                    <button id="send-btn" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> 发送
+                    </button>
+                </div>
+                
+                <div class="chat-settings">
+                    <label>
+                        <input type="checkbox" id="auto-scroll" checked> 自动滚动
+                    </label>
+                    <button id="clear-chat" class="btn btn-outline">
+                        <i class="fas fa-trash"></i> 清空对话
+                    </button>
+                    <!-- 重新连接按钮会由JS动态添加 -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="ai-sidebar">
+            <div class="ai-features">
+                <h3><i class="fas fa-magic"></i> AI功能</h3>
+                <button class="ai-feature-btn" data-action="explain-math">
+                    <i class="fas fa-calculator"></i> 解释数学概念
+                </button>
+                <button class="ai-feature-btn" data-action="grammar-check">
+                    <i class="fas fa-spell-check"></i> 检查英语语法
+                </button>
+                <button class="ai-feature-btn" data-action="generate-quiz">
+                    <i class="fas fa-question-circle"></i> 生成练习题
+                </button>
+                <button class="ai-feature-btn" data-action="study-plan">
+                    <i class="fas fa-calendar-alt"></i> 制定学习计划
+                </button>
+            </div>
+            
+            <div class="ai-settings">
+                <h3><i class="fas fa-cog"></i> 设置</h3>
+                <div class="setting-item">
+                    <label for="ai-model">AI模型:</label>
+                    <select id="ai-model" disabled title="当前仅支持DeepSeek模型">
+                        <option value="deepseek" selected>DeepSeek (当前使用)</option>
+                    </select>
+                    <small style="color: var(--gray-color); font-size: 0.8rem; display: block; margin-top: 5px;">
+                        连接到你的本地DeepSeek API服务
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>智慧教学平台 &copy; 2025 | 交互式学习系统</p>
+            <p class="footer-links">
+                <a href="#"><i class="fas fa-question-circle"></i> 帮助</a>
+                <a href="#"><i class="fas fa-envelope"></i> 联系我们</a>
+                <a href="#"><i class="fas fa-shield-alt"></i> 隐私政策</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
